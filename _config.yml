@@ -1,35 +1,15 @@
 remote_theme: just-the-docs/just-the-docs
 title: Learning Hub
 description: Educational resources and tutorials
-
-# Layout settings
-defaults:
-  -
-    scope:
-      path: "" # Apply to all files
-    values:
-      layout: default
-
-# Sidebar settings
-nav_external_links:
-  - title: GitHub Repository
-    url: https://github.com/yourusername/yourusername.github.io
-
-# Width settings
-spacing_unit: 1 # Default is 4, reducing it makes everything more compact
-search_enabled: true
-heading_anchors: true
-
-# Custom variables for layout
-custom_vars:
-  nav_width: 50px    # Controls left sidebar width
-  content_width: 900px # Controls main content width
-  
-# Color scheme
-color_scheme: light
-
-# Enable auxiliary links
-aux_links_new_tab: true
 aux_links:
-  "GitHub":
+  "GitHub Repository":
     - "//github.com/yourusername/yourusername.github.io"
+
+plugins:
+  - jekyll-sass-converter
+
+# Custom SCSS file
+assets:
+  stylesheets:
+    - "/_sass/custom.scss"
+
