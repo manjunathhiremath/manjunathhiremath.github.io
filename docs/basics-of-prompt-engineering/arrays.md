@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Arrays & Lists
-parent: Programming Basics
+parent: Basics of Prompt Engineering
 nav_order: 4
 ---
 
