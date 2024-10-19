@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Control Flow
-parent: Programming Basics
+parent: Basics of Prompt Engineering
 nav_order: 2
 ---
 
