@@ -1,6 +1,11 @@
 remote_theme: just-the-docs/just-the-docs
 title: Learning Hub
 description: Educational resources and tutorials
+
+# Add these lines to enable custom CSS
+sass:
+  sass_dir: _sass
+  style: compressed
 aux_links:
   "GitHub Repository":
     - "//github.com/yourusername/yourusername.github.io"
