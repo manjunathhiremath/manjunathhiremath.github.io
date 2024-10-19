@@ -1,18 +1,6 @@
-remote_theme: "just-the-docs/just-the-docs"
-
-# Enable table of contents
+remote_theme: just-the-docs/just-the-docs
+title: Learning Hub
+description: Educational resources and tutorials
 aux_links:
-  main_topics:
-    - title: "Topic 1"
-      url: "/topic-1/"
-    - title: "Topic 2"
-      url: "/topic-2/"
-
-# Configure the side columns
-show_toc: true
-toc: true
-toc_levels: 1..3
-
-# Optional: add site details
-title: "My Documentation Site"
-description: "A simple documentation site using just-the-docs"
+  "GitHub Repository":
+    - "//github.com/yourusername/yourusername.github.io"
