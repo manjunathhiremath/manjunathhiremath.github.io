@@ -1,7 +1,21 @@
 remote_theme: just-the-docs/just-the-docs
 
-nav:
-  - Home: index.md
-  - Main Topics: main_topics.md
-  - Topic Details: topic_details.md
+# Site settings
+title: My Documentation Site
+description: A simple documentation site with two side columns.
+logo: logo.png  # Optional if you have a logo
+search_enabled: true  # Optional for adding a search bar
 
+# Navigation structure
+nav:
+  - title: Main Topics
+    nav_order: 1
+    children:
+      - title: Overview
+        url: /
+      - title: Topic 1
+        url: /topic-1
+      - title: Topic 2
+        url: /topic-2
+      - title: Topic 3
+        url: /topic-3
