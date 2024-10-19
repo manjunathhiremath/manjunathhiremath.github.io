@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Functions
-parent: Programming Basics
+parent: Basics of Prompt Engineering
 nav_order: 3
 ---
 
