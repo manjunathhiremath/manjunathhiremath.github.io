@@ -1,1 +1,7 @@
 remote_theme: just-the-docs/just-the-docs
+
+nav:
+  - Home: index.md
+  - Main Topics: main_topics.md
+  - Topic Details: topic_details.md
+
