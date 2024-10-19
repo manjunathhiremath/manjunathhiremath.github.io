@@ -16,13 +16,13 @@ nav_external_links:
     url: https://github.com/yourusername/yourusername.github.io
 
 # Width settings
-spacing_unit: 2 # Default is 4, reducing it makes everything more compact
+spacing_unit: 1 # Default is 4, reducing it makes everything more compact
 search_enabled: true
 heading_anchors: true
 
 # Custom variables for layout
 custom_vars:
-  nav_width: 150px    # Controls left sidebar width
+  nav_width: 50px    # Controls left sidebar width
   content_width: 900px # Controls main content width
   
 # Color scheme
