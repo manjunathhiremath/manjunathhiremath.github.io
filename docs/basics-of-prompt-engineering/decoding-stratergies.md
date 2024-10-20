@@ -364,98 +364,89 @@ Top-p sampling dynamically adjusts the set of words to sample from based on thei
 - **Low temperature (`T < 1`)**: Makes the model more confident, sharpening the probability distribution. This reduces randomness, making the output more predictable.
 - **High temperature (`T > 1`)**: Flattens the probability distribution, increasing randomness and diversity, which can lead to more creative and varied outputs.
 
-Here's how temperature sampling works with an example over 5 steps:
+In language models, the temperature parameter (`T`) is used to adjust the probabilities of predicted tokens. The formula for temperature scaling is as follows:
 
-Let's start with the prompt **"The"**, and we'll set the temperature parameter to **`T = 1.2`**. This slightly increases randomness in the selection process. Assume the model generates the following probabilities:
+### Temperature Formula
 
-![image](https://github.com/user-attachments/assets/4a245517-0af3-47e5-b082-cbc9b19c686e)
+Given the raw probability of a token \( p(w) \), the adjusted probability \( p_{\text{new}}(w) \) at a specific temperature \( T \) is calculated using the formula:
 
-### Step-by-step Process (5 Steps)
+\[
+p_{\text{new}}(w) = \frac{p(w)^{\frac{1}{T}}}{Z}
+\]
 
-1. **Step 1: Adjust the probability distribution**
-   - **Prompt**: "The"
-   - **Model's next word probabilities** (before adjustment):
-     - cat: 0.5
-     - dog: 0.3
-     - car: 0.15
-     - tree: 0.05
-   - **Adjust the probabilities** using temperature `T = 1.2`:
-   - **Apply temperature (`T = 1.2`)**:
-     - We adjust the probabilities using the temperature formula: 
-       \[
-       p_{\text{new}}(w) \propto p(w)^{\frac{1}{T}}
-       \]
-     - This flattens the distribution slightly, making lower-probability words more likely:
-       - cat: 0.45
-       - dog: 0.28
-       - car: 0.17
-       - tree: 0.10
-   - The model randomly selects a word based on the adjusted probabilities. Suppose it picks **"cat"**.
-   - **Current output**: "The cat"
+where:
+- \( p(w) \) is the original probability of the token \( w \).
+- \( T \) is the temperature parameter.
+- \( Z \) is a normalization factor to ensure that the probabilities sum to 1.
 
-2. **Step 2: Adjust and sample the next word**
-   - **Current text**: "The cat"
-   - **Model's next word probabilities** (before adjustment):
-     - sits: 0.4
-     - jumps: 0.3
-     - runs: 0.2
-     - sleeps: 0.1
-   - **Adjusted probabilities**:
-     - sits: 0.38
-     - jumps: 0.28
-     - runs: 0.22
-     - sleeps: 0.12
-   - The model randomly selects one based on the adjusted probabilities. Suppose it chooses **"jumps"**.
-   - **Current output**: "The cat jumps"
+The normalization factor \( Z \) can be computed as:
 
-3. **Step 3: Adjust and sample the next word**
-   - **Current text**: "The cat jumps"
-   - **Model's next word probabilities** (before adjustment):
-     - on: 0.6
-     - off: 0.2
-     - up: 0.15
-     - over: 0.05
-   - **Adjusted probabilities**:
-     - on: 0.55
-     - off: 0.22
-     - up: 0.18
-     - over: 0.05
-   - The model randomly picks one. Suppose it selects **"on"**.
-   - **Current output**: "The cat jumps on"
+\[
+Z = \sum_{w} p(w)^{\frac{1}{T}}
+\]
 
-4. **Step 4: Adjust and sample the next word**
-   - **Current text**: "The cat jumps on"
-   - **Model's next word probabilities** (before adjustment):
-     - the: 0.7
-     - a: 0.2
-     - his: 0.05
-     - its: 0.05
-   - **Adjusted probabilities**:
-     - the: 0.65
-     - a: 0.22
-     - his: 0.07
-     - its: 0.06
-   - The model randomly selects one. Suppose it chooses **"the"**.
-   - **Current output**: "The cat jumps on the"
+### How Temperature Affects Probabilities
+- **Low Temperature (`T < 1`)**: The model becomes more confident. Higher probabilities get even higher, while lower probabilities diminish, making the model more deterministic.
+- **High Temperature (`T > 1`)**: The distribution flattens. The differences between high and low probabilities are reduced, leading to more randomness and creativity in the output.
 
-5. **Step 5: Adjust and sample the next word**
-   - **Current text**: "The cat jumps on the"
-   - **Model's next word probabilities** (before adjustment):
-     - table: 0.4
-     - chair: 0.3
-     - mat: 0.2
-     - rug: 0.1
-   - **Adjusted probabilities**:
-     - table: 0.37
-     - chair: 0.28
-     - mat: 0.25
-     - rug: 0.1
-   - The model randomly selects one. Suppose it picks **"table"**.
-   - **Final output**: "The cat jumps on the table"
+### Example
+
+Let's assume we have the following raw probabilities for the next token after a prompt:
+
+| Token | Original Probability (\( p(w) \)) |
+|-------|-----------------------------------|
+| cat   | 0.5                               |
+| dog   | 0.3                               |
+| car   | 0.15                              |
+| tree  | 0.05                              |
+
+Let's calculate the adjusted probabilities for two different temperatures: **`T = 0.5` (low temperature)** and **`T = 1.5` (high temperature)**.
+
+#### Case 1: Low Temperature (`T = 0.5`)
+
+1. **Adjust the probabilities**:
+   - For each token, raise its probability to the power of \( \frac{1}{T} = 2 \):
+     - \( p_{\text{new}}(\text{cat}) = 0.5^{2} = 0.25 \)
+     - \( p_{\text{new}}(\text{dog}) = 0.3^{2} = 0.09 \)
+     - \( p_{\text{new}}(\text{car}) = 0.15^{2} = 0.0225 \)
+     - \( p_{\text{new}}(\text{tree}) = 0.05^{2} = 0.0025 \)
+
+2. **Normalization**:
+   - Calculate \( Z \):
+     \[
+     Z = 0.25 + 0.09 + 0.0225 + 0.0025 = 0.365
+     \]
+
+   - Now normalize the adjusted probabilities:
+     - \( p_{\text{new}}(\text{cat}) = \frac{0.25}{0.365} \approx 0.6857 \)
+     - \( p_{\text{new}}(\text{dog}) = \frac{0.09}{0.365} \approx 0.2466 \)
+     - \( p_{\text{new}}(\text{car}) = \frac{0.0225}{0.365} \approx 0.0616 \)
+     - \( p_{\text{new}}(\text{tree}) = \frac{0.0025}{0.365} \approx 0.0068 \)
+
+#### Case 2: High Temperature (`T = 1.5`)
+
+1. **Adjust the probabilities**:
+   - Raise each probability to the power of \( \frac{1}{T} = \frac{2}{3} \):
+     - \( p_{\text{new}}(\text{cat}) = 0.5^{\frac{2}{3}} \approx 0.3684 \)
+     - \( p_{\text{new}}(\text{dog}) = 0.3^{\frac{2}{3}} \approx 0.2299 \)
+     - \( p_{\text{new}}(\text{car}) = 0.15^{\frac{2}{3}} \approx 0.1170 \)
+     - \( p_{\text{new}}(\text{tree}) = 0.05^{\frac{2}{3}} \approx 0.0375 \)
+
+2. **Normalization**:
+   - Calculate \( Z \):
+     \[
+     Z = 0.3684 + 0.2299 + 0.1170 + 0.0375 \approx 0.7528
+     \]
+
+   - Now normalize the adjusted probabilities:
+     - \( p_{\text{new}}(\text{cat}) = \frac{0.3684}{0.7528} \approx 0.4881 \)
+     - \( p_{\text{new}}(\text{dog}) = \frac{0.2299}{0.7528} \approx 0.3052 \)
+     - \( p_{\text{new}}(\text{car}) = \frac{0.1170}{0.7528} \approx 0.1551 \)
+     - \( p_{\text{new}}(\text{tree}) = \frac{0.0375}{0.7528} \approx 0.0498 \)
 
 ### Summary
-Temperature sampling dynamically adjusts the likelihood of each word by modifying the model's probability distribution:
 
-- **Pros**: Allows fine-tuning of randomness and diversity in the output. It’s useful for balancing between predictable and creative outputs.
-- **Cons**: Selecting the right temperature is crucial; too low may make the output repetitive, while too high can lead to incoherent sentences.
-- **Use Cases**: Ideal for generating creative writing, poetry, or conversational responses where some diversity is needed, but coherence is also important.
+- **Low temperature (T = 0.5)** emphasizes the highest-probability words, making the output more predictable.
+- **High temperature (T = 1.5)** flattens the distribution, allowing for more diverse outputs, which can be more creative but also riskier in coherence.
+
+By adjusting the temperature, you can control the randomness and creativity of the generated text in language models.
