@@ -365,16 +365,52 @@ Top-p sampling dynamically adjusts the set of words to sample from based on thei
 - **High temperature (`T > 1`)**: Flattens the probability distribution, increasing randomness and diversity, which can lead to more creative and varied outputs.
 
 In language models, the temperature parameter (`T`) is used to adjust the probabilities of predicted tokens. The formula for temperature scaling is as follows:
-# Temperature Adjustment in Language Models
+Here's the formatted content for a .md file:
 
-In language models, the temperature parameter (`T`) is used to adjust the probabilities of predicted tokens. The formula for temperature scaling is as follows:
+# Temperature Adjustment in Language Model Text Generation
 
-Here's the text formatted for easy copy-pasting into a .md file:
+## Example Setup
 
-**Adjust the probabilities** using temperature T=1.2:
-* Compute $\frac{1}{T} = \frac{1}{1.2} \approx 0.8333$
-* Raise each probability to the power of $\frac{1}{T}$:
-   * $p_{\text{new}}(\text{cat}) = 0.5^{0.8333} \approx 0.4192$
-   * $p_{\text{new}}(\text{dog}) = 0.3^{0.8333} \approx 0.2462$
-   * $p_{\text{new}}(\text{car}) = 0.15^{0.8333} \approx 0.1122$
-   * $p_{\text{new}}(\text{tree}) = 0.05^{0.8333} \approx 0.0262$
+**Prompt**: "The"  
+**Temperature (`T`)**: 1.2
+
+Initial probabilities for the next token:
+
+| Token | Original Probability (p(w)) |
+|-------|----------------------------|
+| cat   | 0.5                        |
+| dog   | 0.3                        |
+| car   | 0.15                       |
+| tree  | 0.05                       |
+
+
+### Adjust Probabilities with Temperature
+
+1. **Original Probabilities**:
+   - cat: 0.5
+   - dog: 0.3
+   - car: 0.15
+   - tree: 0.05
+
+2. **Adjust the probabilities** using temperature T = 1.2:
+   - Compute $\frac{1}{T} = \frac{1}{1.2} \approx 0.8333$
+   - Raise each probability to the power of $\frac{1}{T}$:
+     - $p_{\text{new}}(\text{cat}) = 0.5^{0.8333} \approx 0.4192$
+     - $p_{\text{new}}(\text{dog}) = 0.3^{0.8333} \approx 0.2462$
+     - $p_{\text{new}}(\text{car}) = 0.15^{0.8333} \approx 0.1122$
+     - $p_{\text{new}}(\text{tree}) = 0.05^{0.8333} \approx 0.0262$
+
+3. **Normalization**:
+   - Calculate the normalization factor Z:
+     $Z = 0.4192 + 0.2462 + 0.1122 + 0.0262 \approx 0.8038$
+
+   - Normalize the adjusted probabilities:
+     - $p_{\text{new}}(\text{cat}) = \frac{0.4192}{0.8038} \approx 0.5207$
+     - $p_{\text{new}}(\text{dog}) = \frac{0.2462}{0.8038} \approx 0.3053$
+     - $p_{\text{new}}(\text{car}) = \frac{0.1122}{0.8038} \approx 0.1391$
+     - $p_{\text{new}}(\text{tree}) = \frac{0.0262}{0.8038} \approx 0.0326$
+
+4. **Random Selection**:
+   - Model samples from adjusted distribution → selects "cat"
+   - **Current output**: "The cat"
+
