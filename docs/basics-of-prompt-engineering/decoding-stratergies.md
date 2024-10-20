@@ -365,7 +365,6 @@ Top-p sampling dynamically adjusts the set of words to sample from based on thei
 - **High temperature (`T > 1`)**: Flattens the probability distribution, increasing randomness and diversity, which can lead to more creative and varied outputs.
 
 In language models, the temperature parameter (`T`) is used to adjust the probabilities of predicted tokens. The formula for temperature scaling is as follows:
-
 # Temperature Adjustment in Language Models
 
 In language models, the temperature parameter (`T`) is used to adjust the probabilities of predicted tokens. The formula for temperature scaling is as follows:
@@ -403,8 +402,6 @@ Let's assume we have the following raw probabilities for the next token after a 
 | dog   | 0.3                               |
 | car   | 0.15                              |
 | tree  | 0.05                              |
-
-Let's calculate the adjusted probabilities for two different temperatures: **`T = 0.5` (low temperature)** and **`T = 1.5` (high temperature)**.
 
 ### Case 1: Low Temperature (`T = 0.5`)
 
@@ -519,4 +516,26 @@ Assume the model generates the following initial probabilities for the next toke
      - under: 0.2
      - beside: 0.15
      - near: 0.05
-   - The model
+   - The model samples directly from this distribution. Suppose it selects **"on"**.
+   - **Current output**: "The cat sits on"
+
+#### Step 4: Use Original Probabilities (No Temperature Adjustment)
+
+7. **Current Text**: "The cat sits on"
+   - **Model's next word probabilities** (original, no adjustment):
+     - the: 0.7
+     - a: 0.2
+     - my: 0.1
+   - The model samples directly from this distribution. Suppose it selects **"the"**.
+   - **Current output**: "The cat sits on the"
+
+#### Step 5: Use Original Probabilities (No Temperature Adjustment)
+
+8. **Current Text**: "The cat sits on the"
+   - **Model's next word probabilities** (original, no adjustment):
+     - mat: 0.5
+     - floor: 0.3
+     - chair: 0.2
+   - The model samples directly from this distribution. Suppose it selects **"mat"**.
+   - **Final output**: "The cat sits on the mat."
+
