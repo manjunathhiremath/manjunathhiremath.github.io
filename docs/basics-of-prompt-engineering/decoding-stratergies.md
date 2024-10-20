@@ -368,6 +368,8 @@ Here's how temperature sampling works with an example over 5 steps:
 
 Let's start with the prompt **"The"**, and we'll set the temperature parameter to **`T = 1.2`**. This slightly increases randomness in the selection process. Assume the model generates the following probabilities:
 
+![image](https://github.com/user-attachments/assets/4a245517-0af3-47e5-b082-cbc9b19c686e)
+
 ### Step-by-step Process (5 Steps)
 
 1. **Step 1: Adjust the probability distribution**
@@ -457,89 +459,3 @@ Temperature sampling dynamically adjusts the likelihood of each word by modifyin
 - **Pros**: Allows fine-tuning of randomness and diversity in the output. It’s useful for balancing between predictable and creative outputs.
 - **Cons**: Selecting the right temperature is crucial; too low may make the output repetitive, while too high can lead to incoherent sentences.
 - **Use Cases**: Ideal for generating creative writing, poetry, or conversational responses where some diversity is needed, but coherence is also important.
-
-
-
-
-
-
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-Sure! Let's focus on how temperature affects the probability distribution at just the **first step** while keeping the remaining steps as is (without temperature adjustment). This method allows us to introduce some controlled randomness initially and then follow a deterministic or original probability path afterward.
-
-### Example Setup
-
-- **Prompt**: "The"
-- **Temperature (`T`)**: We'll set `T = 1.2` only for the first step to introduce some diversity. 
-- For the remaining steps, we'll use the model's **original probabilities** without any temperature adjustment.
-
-### Step-by-Step Process
-
-1. **Step 1: Adjust the probabilities using temperature (only this step)**
-   - **Prompt**: "The"
-   - **Model's next word probabilities** (before temperature adjustment):
-     - cat: 0.5
-     - dog: 0.3
-     - car: 0.15
-     - tree: 0.05
-   - **Apply temperature (`T = 1.2`)**:
-     - We adjust the probabilities using the temperature formula: 
-       \[
-       p_{\text{new}}(w) \propto p(w)^{\frac{1}{T}}
-       \]
-     - This flattens the distribution slightly, making lower-probability words more likely:
-       - cat: 0.45
-       - dog: 0.28
-       - car: 0.17
-       - tree: 0.10
-   - The model randomly samples from this adjusted distribution. Suppose it selects **"car"**.
-   - **Current output**: "The car"
-
-2. **Step 2: No temperature adjustment (use original probabilities)**
-   - **Current text**: "The car"
-   - **Model's next word probabilities** (no adjustment):
-     - moves: 0.4
-     - stops: 0.3
-     - accelerates: 0.2
-     - honks: 0.1
-   - The model samples directly from this distribution. Suppose it chooses **"moves"**.
-   - **Current output**: "The car moves"
-
-3. **Step 3: No temperature adjustment (use original probabilities)**
-   - **Current text**: "The car moves"
-   - **Model's next word probabilities** (no adjustment):
-     - quickly: 0.5
-     - slowly: 0.3
-     - steadily: 0.15
-     - erratically: 0.05
-   - The model samples directly from this distribution. Suppose it chooses **"quickly"**.
-   - **Current output**: "The car moves quickly"
-
-4. **Step 4: No temperature adjustment (use original probabilities)**
-   - **Current text**: "The car moves quickly"
-   - **Model's next word probabilities** (no adjustment):
-     - down: 0.4
-     - along: 0.3
-     - through: 0.2
-     - towards: 0.1
-   - The model samples directly from this distribution. Suppose it selects **"down"**.
-   - **Current output**: "The car moves quickly down"
-
-5. **Step 5: No temperature adjustment (use original probabilities)**
-   - **Current text**: "The car moves quickly down"
-   - **Model's next word probabilities** (no adjustment):
-     - the: 0.6
-     - a: 0.3
-     - its: 0.1
-   - The model samples directly from this distribution. Suppose it chooses **"the"**.
-   - **Final output**: "The car moves quickly down the"
-
-### Summary
-
-- **Temperature adjustment** was applied **only at the first step**, which slightly altered the initial probabilities, leading to more diversity in the choice of the first word. 
-- The remaining steps used the **original, unadjusted probabilities**, making the model’s subsequent decisions more predictable and consistent.
-- **Why do this**: It’s a technique to introduce some initial variety while ensuring that the rest of the output remains coherent and controlled.
-
-By using temperature selectively, you get a balance of creativity and consistency in the model's output.
