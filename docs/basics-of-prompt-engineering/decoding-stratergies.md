@@ -380,10 +380,7 @@ Let's start with the prompt **"The"**, and we'll set the temperature parameter t
    - **Adjust the probabilities** using temperature `T = 1.2`:
    - **Apply temperature (`T = 1.2`)**:
      - We adjust the probabilities using the temperature formula: 
-       \[
-       p_{\text{new}}(w) \propto p(w)^{\frac{1}{T}}
-       \]
- 
+       \[p_{\text{new}}(w) \propto p(w)^{\frac{1}{T}}\]
      - This flattens the distribution slightly, making lower-probability words more likely:
        - cat: 0.45
        - dog: 0.28
