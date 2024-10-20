@@ -367,50 +367,89 @@ Top-p sampling dynamically adjusts the set of words to sample from based on thei
 In language models, the temperature parameter (`T`) is used to adjust the probabilities of predicted tokens. The formula for temperature scaling is as follows:
 Here's the formatted content for a .md file:
 
-# Temperature Adjustment in Language Model Text Generation
+In language models, the temperature parameter (`T`) is used to adjust the probabilities of predicted tokens. The formula for temperature scaling is as follows:
 
-## Example Setup
+### Temperature Formula
 
-**Prompt**: "The"  
-**Temperature (`T`)**: 1.2
+Given the raw probability of a token \( p(w) \), the adjusted probability \( p_{\text{new}}(w) \) at a specific temperature \( T \) is calculated using the formula:
 
-Initial probabilities for the next token:
+\[
+p_{\text{new}}(w) = \frac{p(w)^{\frac{1}{T}}}{Z}
+\]
 
-| Token | Original Probability (p(w)) |
-|-------|----------------------------|
-| cat   | 0.5                        |
-| dog   | 0.3                        |
-| car   | 0.15                       |
-| tree  | 0.05                       |
+where:
+- \( p(w) \) is the original probability of the token \( w \).
+- \( T \) is the temperature parameter.
+- \( Z \) is a normalization factor to ensure that the probabilities sum to 1.
 
+The normalization factor \( Z \) can be computed as:
 
-### Adjust Probabilities with Temperature
+\[
+Z = \sum_{w} p(w)^{\frac{1}{T}}
+\]
 
-1. **Original Probabilities**:
-   - cat: 0.5
-   - dog: 0.3
-   - car: 0.15
-   - tree: 0.05
+### How Temperature Affects Probabilities
+- **Low Temperature (`T < 1`)**: The model becomes more confident. Higher probabilities get even higher, while lower probabilities diminish, making the model more deterministic.
+- **High Temperature (`T > 1`)**: The distribution flattens. The differences between high and low probabilities are reduced, leading to more randomness and creativity in the output.
 
-2. **Adjust the probabilities** using temperature T = 1.2:
-   - Compute $\frac{1}{T} = \frac{1}{1.2} \approx 0.8333$
-   - Raise each probability to the power of $\frac{1}{T}$:
-     - $p_{\text{new}}(\text{cat}) = 0.5^{0.8333} \approx 0.4192$
-     - $p_{\text{new}}(\text{dog}) = 0.3^{0.8333} \approx 0.2462$
-     - $p_{\text{new}}(\text{car}) = 0.15^{0.8333} \approx 0.1122$
-     - $p_{\text{new}}(\text{tree}) = 0.05^{0.8333} \approx 0.0262$
+### Example
 
-3. **Normalization**:
-   - Calculate the normalization factor Z:
-     $Z = 0.4192 + 0.2462 + 0.1122 + 0.0262 \approx 0.8038$
+Let's assume we have the following raw probabilities for the next token after a prompt:
 
-   - Normalize the adjusted probabilities:
-     - $p_{\text{new}}(\text{cat}) = \frac{0.4192}{0.8038} \approx 0.5207$
-     - $p_{\text{new}}(\text{dog}) = \frac{0.2462}{0.8038} \approx 0.3053$
-     - $p_{\text{new}}(\text{car}) = \frac{0.1122}{0.8038} \approx 0.1391$
-     - $p_{\text{new}}(\text{tree}) = \frac{0.0262}{0.8038} \approx 0.0326$
+| Token | Original Probability (\( p(w) \)) |
+|-------|-----------------------------------|
+| cat   | 0.5                               |
+| dog   | 0.3                               |
+| car   | 0.15                              |
+| tree  | 0.05                              |
 
-4. **Random Selection**:
-   - Model samples from adjusted distribution → selects "cat"
-   - **Current output**: "The cat"
+Let's calculate the adjusted probabilities for two different temperatures: **`T = 0.5` (low temperature)** and **`T = 1.5` (high temperature)**.
 
+#### Case 1: Low Temperature (`T = 0.5`)
+
+1. **Adjust the probabilities**:
+   - For each token, raise its probability to the power of \( \frac{1}{T} = 2 \):
+     - \( p_{\text{new}}(\text{cat}) = 0.5^{2} = 0.25 \)
+     - \( p_{\text{new}}(\text{dog}) = 0.3^{2} = 0.09 \)
+     - \( p_{\text{new}}(\text{car}) = 0.15^{2} = 0.0225 \)
+     - \( p_{\text{new}}(\text{tree}) = 0.05^{2} = 0.0025 \)
+
+2. **Normalization**:
+   - Calculate \( Z \):
+     \[
+     Z = 0.25 + 0.09 + 0.0225 + 0.0025 = 0.365
+     \]
+
+   - Now normalize the adjusted probabilities:
+     - \( p_{\text{new}}(\text{cat}) = \frac{0.25}{0.365} \approx 0.6857 \)
+     - \( p_{\text{new}}(\text{dog}) = \frac{0.09}{0.365} \approx 0.2466 \)
+     - \( p_{\text{new}}(\text{car}) = \frac{0.0225}{0.365} \approx 0.0616 \)
+     - \( p_{\text{new}}(\text{tree}) = \frac{0.0025}{0.365} \approx 0.0068 \)
+
+#### Case 2: High Temperature (`T = 1.5`)
+
+1. **Adjust the probabilities**:
+   - Raise each probability to the power of \( \frac{1}{T} = \frac{2}{3} \):
+     - \( p_{\text{new}}(\text{cat}) = 0.5^{\frac{2}{3}} \approx 0.3684 \)
+     - \( p_{\text{new}}(\text{dog}) = 0.3^{\frac{2}{3}} \approx 0.2299 \)
+     - \( p_{\text{new}}(\text{car}) = 0.15^{\frac{2}{3}} \approx 0.1170 \)
+     - \( p_{\text{new}}(\text{tree}) = 0.05^{\frac{2}{3}} \approx 0.0375 \)
+
+2. **Normalization**:
+   - Calculate \( Z \):
+     \[
+     Z = 0.3684 + 0.2299 + 0.1170 + 0.0375 \approx 0.7528
+     \]
+
+   - Now normalize the adjusted probabilities:
+     - \( p_{\text{new}}(\text{cat}) = \frac{0.3684}{0.7528} \approx 0.4881 \)
+     - \( p_{\text{new}}(\text{dog}) = \frac{0.2299}{0.7528} \approx 0.3052 \)
+     - \( p_{\text{new}}(\text{car}) = \frac{0.1170}{0.7528} \approx 0.1551 \)
+     - \( p_{\text{new}}(\text{tree}) = \frac{0.0375}{0.7528} \approx 0.0498 \)
+
+### Summary
+
+- **Low temperature (T = 0.5)** emphasizes the highest-probability words, making the output more predictable.
+- **High temperature (T = 1.5)** flattens the distribution, allowing for more diverse outputs, which can be more creative but also riskier in coherence.
+
+By adjusting the temperature, you can control the randomness and creativity of the generated text in language models.
