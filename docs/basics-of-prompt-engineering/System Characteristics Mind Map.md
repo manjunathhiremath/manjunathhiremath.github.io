@@ -1,11 +1,9 @@
 ---
 layout: default
-title: Objects & Classes
+title: System Characteristics Mind Map
 parent: Basics of Prompt Engineering
 nav_order: 5
 ---
-
-# Objects & Classes
 
 # System Characteristics Mind Map
 
