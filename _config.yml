@@ -8,6 +8,9 @@ aux_links:
 plugins:
   - jekyll-sass-converter
 
+# Google Analytics
+google_analytics: G-G747QK2WCK
+
 # Custom SCSS file
 assets:
   stylesheets:
