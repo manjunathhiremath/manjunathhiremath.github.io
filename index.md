@@ -1,1 +1,0 @@
-# manjunathhiremath.github.io
