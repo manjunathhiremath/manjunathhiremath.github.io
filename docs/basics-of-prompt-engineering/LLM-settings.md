@@ -276,6 +276,9 @@ Yes, the token limit **does** include the system prompt. In LLMs, all components
 ### Example
 If the system prompt uses 50 tokens, and the user input takes 100 tokens, that adds up to 150 tokens. If the model's max length is 4,096 tokens, this leaves 3,946 tokens for the model’s response.
 
+<img width="712" alt="image (3)" src="https://github.com/user-attachments/assets/b2273416-5121-4677-b14d-e4799fa8a7f2">
+
+
 ### Summary
 The entire sequence—**system prompt, user prompt, and generated response**—must stay within the model's token limit.
 
