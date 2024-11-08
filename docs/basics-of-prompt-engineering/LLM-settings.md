@@ -84,105 +84,100 @@ Here's how Top-p sampling works with an example over 5 steps:
 Let's start with the prompt **"The"**, and we'll use `p = 0.9` (the model will select words whose cumulative probability is just above 0.9). Assume the model generates the following probabilities for each step:
 
 # Language Model Text Generation Process: Step-by-Step Example
-
 ## Overview
-This document demonstrates how a language model generates text one word at a time using probability distributions and top-p sampling.
+This document demonstrates how a language model generates text one word at a time using probability distributions, cumulative probabilities, and top-p sampling with random selection.
 
 ## Detailed Process
 
 ### Step 1: Generate the first word after "The"
-
 #### Input Prompt: "The"
-
-| Word | Probability |
-|------|------------|
-| cat  | 0.50       |
-| dog  | 0.20       |
-| car  | 0.15       |
-| tree | 0.10       |
-| sun  | 0.05       |
+| Word | Probability | Cumulative Prob. |
+|------|------------|------------------|
+| cat  | 0.50       | 0.50             |
+| dog  | 0.20       | 0.70             |
+| car  | 0.15       | 0.85             |
+| tree | 0.10       | 0.95             |
+| sun  | 0.05       | 1.00             |
 
 **Top-p subset (p = 0.9):**
 - Selected words: ["cat" (0.5), "dog" (0.2), "car" (0.15), "tree" (0.1)]
 - Cumulative probability = 0.95
-- **Selected word: "cat"**
+- Random number generated: 0.67
+- **Selected word: "dog"** (falls in 0.50-0.70 range)
 
-**Current output:** "The cat"
+**Current output:** "The dog"
 
 ### Step 2: Generate the next word
-
-#### Current text: "The cat"
-
-| Word   | Probability |
-|--------|------------|
-| sits   | 0.40       |
-| jumps  | 0.30       |
-| runs   | 0.15       |
-| sleeps | 0.10       |
-| looks  | 0.05       |
+#### Current text: "The dog"
+| Word   | Probability | Cumulative Prob. |
+|--------|------------|------------------|
+| sits   | 0.40       | 0.40             |
+| jumps  | 0.30       | 0.70             |
+| runs   | 0.15       | 0.85             |
+| sleeps | 0.10       | 0.95             |
+| looks  | 0.05       | 1.00             |
 
 **Top-p subset (p = 0.9):**
 - Selected words: ["sits" (0.4), "jumps" (0.3), "runs" (0.15), "sleeps" (0.1)]
 - Cumulative probability = 0.95
-- **Selected word: "sits"**
+- Random number generated: 0.45
+- **Selected word: "jumps"** (falls in 0.40-0.70 range)
 
-**Current output:** "The cat sits"
+**Current output:** "The dog jumps"
 
 ### Step 3: Generate the next word
-
-#### Current text: "The cat sits"
-
-| Word   | Probability |
-|--------|------------|
-| on     | 0.50       |
-| under  | 0.20       |
-| beside | 0.15       |
-| near   | 0.10       |
-| with   | 0.05       |
+#### Current text: "The dog jumps"
+| Word   | Probability | Cumulative Prob. |
+|--------|------------|------------------|
+| on     | 0.50       | 0.50             |
+| under  | 0.20       | 0.70             |
+| beside | 0.15       | 0.85             |
+| near   | 0.10       | 0.95             |
+| with   | 0.05       | 1.00             |
 
 **Top-p subset (p = 0.9):**
 - Selected words: ["on" (0.5), "under" (0.2), "beside" (0.15), "near" (0.1)]
 - Cumulative probability = 0.95
-- **Selected word: "on"**
+- Random number generated: 0.82
+- **Selected word: "beside"** (falls in 0.70-0.85 range)
 
-**Current output:** "The cat sits on"
+**Current output:** "The dog jumps beside"
 
 ### Step 4: Generate the next word
-
-#### Current text: "The cat sits on"
-
-| Word | Probability |
-|------|------------|
-| the  | 0.60       |
-| a    | 0.20       |
-| his  | 0.10       |
-| its  | 0.05       |
-| that | 0.05       |
+#### Current text: "The dog jumps beside"
+| Word | Probability | Cumulative Prob. |
+|------|------------|------------------|
+| the  | 0.60       | 0.60             |
+| a    | 0.20       | 0.80             |
+| his  | 0.10       | 0.90             |
+| its  | 0.05       | 0.95             |
+| that | 0.05       | 1.00             |
 
 **Top-p subset (p = 0.9):**
 - Selected words: ["the" (0.6), "a" (0.2), "his" (0.1)]
 - Cumulative probability = 0.9
-- **Selected word: "the"**
+- Random number generated: 0.75
+- **Selected word: "a"** (falls in 0.60-0.80 range)
 
-**Current output:** "The cat sits on the"
+**Current output:** "The dog jumps beside a"
 
-### Step 5: Generate the next word
-
-#### Current text: "The cat sits on the"
-
-| Word  | Probability |
-|-------|------------|
-| mat   | 0.40       |
-| rug   | 0.30       |
-| floor | 0.20       |
-| couch | 0.10       |
+### Step 5: Generate the final word
+#### Current text: "The dog jumps beside a"
+| Word   | Probability | Cumulative Prob. |
+|--------|------------|------------------|
+| fence  | 0.40       | 0.40             |
+| tree   | 0.30       | 0.70             |
+| bush   | 0.20       | 0.90             |
+| house  | 0.10       | 1.00             |
 
 **Top-p subset (p = 0.9):**
-- Selected words: ["mat" (0.4), "rug" (0.3), "floor" (0.2)]
+- Selected words: ["fence" (0.4), "tree" (0.3), "bush" (0.2)]
 - Cumulative probability = 0.9
-- **Selected word: "mat"**
+- Random number generated: 0.35
+- **Selected word: "fence"** (falls in 0.0-0.40 range)
 
-**Final output:** "The cat sits on the mat"
+**Final output:** "The dog jumps beside a fence"
+
 ### Summary
 Top-p sampling dynamically adjusts the set of words to sample from based on their cumulative probability, ensuring that the most likely options are always included but still allowing for diversity:
 
