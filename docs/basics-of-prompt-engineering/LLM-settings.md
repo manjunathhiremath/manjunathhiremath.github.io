@@ -12,6 +12,7 @@ When designing and testing prompts, you typically interact with the LLM via an A
 ## 1.Temperature
 In short, the lower the temperature, the more deterministic the results in the sense that the highest probable next token is always picked. Increasing temperature could lead to more randomness, which encourages more diverse or creative outputs. You are essentially increasing the weights of the other possible tokens. In terms of application, you might want to use a lower temperature value for tasks like fact-based QA to encourage more factual and concise responses. For poem generation or other creative tasks, it might be beneficial to increase the temperature value.
 
+
 ### Low Temperature (e.g., 0.1 - 0.4)
 - **Deterministic and Fact-Based Tasks**: When you want the model to provide consistent, precise answers, such as for:
   - Code generation or debugging
@@ -28,6 +29,8 @@ In short, the lower the temperature, the more deterministic the results in the s
 
 ### Medium Temperature (e.g., 0.5 - 0.7)
 - This range strikes a balance, making it suitable for cases where you want some creativity but still need reasonable consistency, like casual conversation or generating informative but engaging text.
+
+<img width="710" alt="image (1)" src="https://github.com/user-attachments/assets/b6b6f835-fe26-4c1d-ad42-42ed15d005db">
 
 Here's a table that outlines the recommended **temperature settings** for each of the listed NLP tasks, along with an explanation for why the temperature setting is appropriate for that specific task.
 
