@@ -30,7 +30,7 @@ In short, the lower the temperature, the more deterministic the results in the s
 ### Medium Temperature (e.g., 0.5 - 0.7)
 - This range strikes a balance, making it suitable for cases where you want some creativity but still need reasonable consistency, like casual conversation or generating informative but engaging text.
 
-<img width="710" alt="image (1)" src="https://github.com/user-attachments/assets/b6b6f835-fe26-4c1d-ad42-42ed15d005db">
+<img width="708" alt="image (2)" src="https://github.com/user-attachments/assets/46bf03e8-5b59-4c4c-9c61-643d47d10196">
 
 Here's a table that outlines the recommended **temperature settings** for each of the listed NLP tasks, along with an explanation for why the temperature setting is appropriate for that specific task.
 
