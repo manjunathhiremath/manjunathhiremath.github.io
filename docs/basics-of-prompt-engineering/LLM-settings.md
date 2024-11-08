@@ -161,7 +161,77 @@ Top-p sampling dynamically adjusts the set of words to sample from based on thei
 
 **The general recommendation is to alter temperature or Top P but not both.**
 
-## 3.Max Length
+## 3.Top-K Sampling
+Top-k sampling is a decoding strategy where, instead of always choosing the most likely next word (as in greedy decoding), the model considers the top `k` most probable words at each step and randomly samples from them. This introduces controlled randomness, increasing diversity in the output while still focusing on likely options. 
+
+Here's how Top-k sampling works with an example over 5 steps:
+
+Let's start with the prompt **"The"**, and we'll use `k = 3` (the model will consider the top 3 most probable words at each step). Assume the model generates the following probabilities:
+
+### Step-by-step Process (5 Steps)
+
+1. **Step 1: Generate the first word after the prompt**
+   - **Prompt**: "The"
+   - **Model's next word probabilities**:
+     - cat: 0.5
+     - dog: 0.3
+     - car: 0.15
+     - tree: 0.05
+   - **Top 3 words** (k = 3): ["cat", "dog", "car"]
+   - The model randomly selects one of these three options. Suppose it picks **"dog"**.
+   - **Current output**: "The dog"
+
+2. **Step 2: Generate the next word**
+   - **Current text**: "The dog"
+   - **Model's next word probabilities**:
+     - barks: 0.4
+     - runs: 0.35
+     - jumps: 0.2
+     - sleeps: 0.05
+   - **Top 3 words** (k = 3): ["barks", "runs", "jumps"]
+   - The model randomly selects one of these. Suppose it chooses **"runs"**.
+   - **Current output**: "The dog runs"
+
+3. **Step 3: Generate the next word**
+   - **Current text**: "The dog runs"
+   - **Model's next word probabilities**:
+     - fast: 0.6
+     - quickly: 0.2
+     - away: 0.15
+     - towards: 0.05
+   - **Top 3 words** (k = 3): ["fast", "quickly", "away"]
+   - The model randomly picks one. Suppose it selects **"fast"**.
+   - **Current output**: "The dog runs fast"
+
+4. **Step 4: Generate the next word**
+   - **Current text**: "The dog runs fast"
+   - **Model's next word probabilities**:
+     - towards: 0.5
+     - past: 0.3
+     - away: 0.2
+   - **Top 3 words** (k = 3): ["towards", "past", "away"]
+   - The model randomly selects one of these. Suppose it chooses **"past"**.
+   - **Current output**: "The dog runs fast past"
+
+5. **Step 5: Generate the next word**
+   - **Current text**: "The dog runs fast past"
+   - **Model's next word probabilities**:
+     - the: 0.6
+     - a: 0.3
+     - his: 0.1
+   - **Top 3 words** (k = 3): ["the", "a", "his"]
+   - The model randomly selects one. Suppose it picks **"the"**.
+   - **Current output**: "The dog runs fast past the"
+
+### Summary
+Top-k sampling introduces randomness by allowing the model to choose from the top `k` words at each step, rather than always selecting the single most probable word. This increases diversity and creativity in the output while still maintaining a focus on likely word choices.
+
+- **Pros**: More varied and creative outputs compared to greedy decoding.
+- **Cons**: The value of `k` must be chosen carefully. If `k` is too high, the output may become incoherent. If `k` is too low, the output may lack diversity.
+- **Use Cases**: Suitable for storytelling, dialogue generation, and creative writing, where diverse responses are desired.
+
+
+## 4.Max Length
 You can manage the number of tokens the model generates by adjusting the max length. Specifying a max length helps you prevent long or irrelevant responses and control costs.
 Yes, the token limit **does** include the system prompt. In LLMs, all components of the input—such as the system prompt, user input, and any other context—count towards the total token limit. Here's how it breaks down:
 
@@ -180,13 +250,13 @@ If the system prompt uses 50 tokens, and the user input takes 100 tokens, that a
 ### Summary
 The entire sequence—**system prompt, user prompt, and generated response**—must stay within the model's token limit.
 
-## 4.Stop Sequences 
+## 5.Stop Sequences 
 A stop sequence is a string that stops the model from generating tokens. Specifying stop sequences is another way to control the length and structure of the model's response. For example, you can tell the model to generate lists that have no more than 10 items by adding "11" as a stop sequence.
 
-## 5.Frequency Penalty
+## 6.Frequency Penalty
 The frequency penalty applies a penalty on the next token proportional to how many times that token already appeared in the response and prompt. The higher the frequency penalty, the less likely a word will appear again. This setting reduces the repetition of words in the model's response by giving tokens that appear more a higher penalty.
 
-## 6.Presence Penalty
+## 7.Presence Penalty
 The presence penalty also applies a penalty on repeated tokens but, unlike the frequency penalty, the penalty is the same for all repeated tokens. A token that appears twice and a token that appears 10 times are penalized the same. This setting prevents the model from repeating phrases too often in its response. If you want the model to generate diverse or creative text, you might want to use a higher presence penalty. Or, if you need the model to stay focused, try using a lower presence penalty.
 
 **Similar to temperature and top_p, the general recommendation is to alter the frequency or presence penalty but not both.**
