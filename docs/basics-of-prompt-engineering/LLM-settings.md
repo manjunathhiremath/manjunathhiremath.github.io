@@ -75,8 +75,86 @@ The **high temperature** setting encourages the model to explore a **wide range 
 
 ![image](https://github.com/user-attachments/assets/139311d1-2ddc-48a8-a236-7deb32a361ca)
 
-## 2.Top P
-A sampling technique with temperature, called nucleus sampling, where you can control how deterministic the model is. If you are looking for exact and factual answers keep this low. If you are looking for more diverse responses, increase to a higher value. If you use Top P it means that only the tokens comprising the top_p probability mass are considered for responses, so a low top_p value selects the most confident responses. This means that a high top_p value will enable the model to look at more possible words, including less likely ones, leading to more diverse outputs.
+## 2.Top-p Sampling
+Top-p sampling, also known as **nucleus sampling**, is a decoding strategy that dynamically selects a subset of words at each step based on their cumulative probability. Instead of a fixed number (`k`) of the most likely words, it considers the smallest group of words whose cumulative probability exceeds a threshold `p` (e.g., 0.9). This introduces controlled randomness while allowing for a flexible set of choices based on the model's confidence.
+
+Here's how Top-p sampling works with an example over 5 steps:
+
+
+Let's start with the prompt **"The"**, and we'll use `p = 0.9` (the model will select words whose cumulative probability is just above 0.9). Assume the model generates the following probabilities for each step:
+
+### Step-by-step Process (5 Steps)
+
+1. **Step 1: Generate the first word after the prompt**
+   - **Prompt**: "The"
+   - **Model's next word probabilities**:
+     - cat: 0.5
+     - dog: 0.2
+     - car: 0.15
+     - tree: 0.1
+     - sun: 0.05
+   - **Top-p subset (p = 0.9)**:
+     - ["cat" (0.5), "dog" (0.2), "car" (0.15), "tree" (0.1)] — Cumulative probability = 0.95
+   - The model randomly selects one of these options. Suppose it picks **"cat"**.
+   - **Current output**: "The cat"
+
+2. **Step 2: Generate the next word**
+   - **Current text**: "The cat"
+   - **Model's next word probabilities**:
+     - sits: 0.4
+     - jumps: 0.3
+     - runs: 0.15
+     - sleeps: 0.1
+     - looks: 0.05
+   - **Top-p subset (p = 0.9)**:
+     - ["sits" (0.4), "jumps" (0.3), "runs" (0.15), "sleeps" (0.1)] — Cumulative probability = 0.95
+   - The model randomly picks one. Suppose it chooses **"sits"**.
+   - **Current output**: "The cat sits"
+
+3. **Step 3: Generate the next word**
+   - **Current text**: "The cat sits"
+   - **Model's next word probabilities**:
+     - on: 0.5
+     - under: 0.2
+     - beside: 0.15
+     - near: 0.1
+     - with: 0.05
+   - **Top-p subset (p = 0.9)**:
+     - ["on" (0.5), "under" (0.2), "beside" (0.15), "near" (0.1)] — Cumulative probability = 0.95
+   - The model randomly selects one. Suppose it selects **"on"**.
+   - **Current output**: "The cat sits on"
+
+4. **Step 4: Generate the next word**
+   - **Current text**: "The cat sits on"
+   - **Model's next word probabilities**:
+     - the: 0.6
+     - a: 0.2
+     - his: 0.1
+     - its: 0.05
+     - that: 0.05
+   - **Top-p subset (p = 0.9)**:
+     - ["the" (0.6), "a" (0.2), "his" (0.1)] — Cumulative probability = 0.9
+   - The model randomly selects one. Suppose it chooses **"the"**.
+   - **Current output**: "The cat sits on the"
+
+5. **Step 5: Generate the next word**
+   - **Current text**: "The cat sits on the"
+   - **Model's next word probabilities**:
+     - mat: 0.4
+     - rug: 0.3
+     - floor: 0.2
+     - couch: 0.1
+   - **Top-p subset (p = 0.9)**:
+     - ["mat" (0.4), "rug" (0.3), "floor" (0.2)] — Cumulative probability = 0.9
+   - The model randomly picks one. Suppose it selects **"mat"**.
+   - **Final output**: "The cat sits on the mat"
+
+### Summary
+Top-p sampling dynamically adjusts the set of words to sample from based on their cumulative probability, ensuring that the most likely options are always included but still allowing for diversity:
+
+- **Pros**: Balances between coherence and randomness by dynamically adjusting the sampling pool based on probabilities. It often produces varied yet reasonable text.
+- **Cons**: The threshold `p` needs to be chosen carefully. A too-small `p` may limit diversity, while a too-large `p` may reduce coherence.
+- **Use Cases**: Ideal for chatbots, storytelling, and other applications where a mix of diversity and coherence is needed.
 
 <img width="999" alt="image" src="https://github.com/user-attachments/assets/996e441b-72a5-49f6-a84b-d7c4de95a8cf">
 
