@@ -78,8 +78,10 @@ The **high temperature** setting encourages the model to explore a **wide range 
 ## 2.Top-p Sampling
 Top-p sampling, also known as **nucleus sampling**, is a decoding strategy that dynamically selects a subset of words at each step based on their cumulative probability. Instead of a fixed number (`k`) of the most likely words, it considers the smallest group of words whose cumulative probability exceeds a threshold `p` (e.g., 0.9). This introduces controlled randomness while allowing for a flexible set of choices based on the model's confidence.
 
+
 Here's how Top-p sampling works with an example over 5 steps:
 
+<img width="634" alt="image (8)" src="https://github.com/user-attachments/assets/3d3d0218-caa3-4c21-a584-e9d152117872">
 
 Let's start with the prompt **"The"**, and we'll use `p = 0.9` (the model will select words whose cumulative probability is just above 0.9). Assume the model generates the following probabilities for each step:
 
