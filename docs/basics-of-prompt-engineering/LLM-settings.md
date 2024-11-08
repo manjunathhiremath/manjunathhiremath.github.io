@@ -70,7 +70,7 @@ Here's a table that outlines the recommended **temperature settings** for each o
 
 The **high temperature** setting encourages the model to explore a **wide range of possibilities** and generate more **unpredictable, creative** outputs. This is perfect for tasks where the goal is to **stimulate imagination** or produce **varied responses**, but less suitable for tasks requiring strict accuracy or consistency.
 
-![Uploading image.png…]()
+![image](https://github.com/user-attachments/assets/139311d1-2ddc-48a8-a236-7deb32a361ca)
 
 ## 2.Top P
 A sampling technique with temperature, called nucleus sampling, where you can control how deterministic the model is. If you are looking for exact and factual answers keep this low. If you are looking for more diverse responses, increase to a higher value. If you use Top P it means that only the tokens comprising the top_p probability mass are considered for responses, so a low top_p value selects the most confident responses. This means that a high top_p value will enable the model to look at more possible words, including less likely ones, leading to more diverse outputs.
