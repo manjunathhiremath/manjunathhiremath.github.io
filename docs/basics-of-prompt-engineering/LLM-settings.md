@@ -288,8 +288,14 @@ A stop sequence is a string that stops the model from generating tokens. Specify
 ## 6.Frequency Penalty
 The frequency penalty applies a penalty on the next token proportional to how many times that token already appeared in the response and prompt. The higher the frequency penalty, the less likely a word will appear again. This setting reduces the repetition of words in the model's response by giving tokens that appear more a higher penalty.
 
+<img width="787" alt="image (4)" src="https://github.com/user-attachments/assets/38e895a7-b327-4ead-9e58-702ea34d7b9a">
+
+
 ## 7.Presence Penalty
 The presence penalty also applies a penalty on repeated tokens but, unlike the frequency penalty, the penalty is the same for all repeated tokens. A token that appears twice and a token that appears 10 times are penalized the same. This setting prevents the model from repeating phrases too often in its response. If you want the model to generate diverse or creative text, you might want to use a higher presence penalty. Or, if you need the model to stay focused, try using a lower presence penalty.
+
+<img width="788" alt="image (5)" src="https://github.com/user-attachments/assets/733cd3f7-2226-4fa2-ad8c-1885bddb0bdf">
+
 
 **Similar to temperature and top_p, the general recommendation is to alter the frequency or presence penalty but not both.**
 
