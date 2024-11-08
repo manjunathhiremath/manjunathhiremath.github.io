@@ -195,6 +195,9 @@ Top-p sampling dynamically adjusts the set of words to sample from based on thei
 ## 3.Top-K Sampling
 Top-k sampling is a decoding strategy where, instead of always choosing the most likely next word (as in greedy decoding), the model considers the top `k` most probable words at each step and randomly samples from them. This introduces controlled randomness, increasing diversity in the output while still focusing on likely options. 
 
+
+<img width="1028" alt="image (9)" src="https://github.com/user-attachments/assets/d81db386-7824-4859-9602-0a0be4cda726">
+
 Here's how Top-k sampling works with an example over 5 steps:
 
 Let's start with the prompt **"The"**, and we'll use `k = 3` (the model will consider the top 3 most probable words at each step). Assume the model generates the following probabilities:
