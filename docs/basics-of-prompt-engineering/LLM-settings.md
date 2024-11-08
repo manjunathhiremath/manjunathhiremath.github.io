@@ -43,7 +43,6 @@ Here's a table that outlines the recommended **temperature settings** for each o
 | **Text Summarization**                | Low (0.3 - 0.5)             | Summarization requires **clarity and relevance**. A low temperature ensures that the model focuses on extracting the most important information without introducing too much creativity. |
 | **Language Translation**              | Low (0.2 - 0.4)             | For translation, **accuracy** in mapping one language to another is essential. A low temperature ensures proper translations without unnecessary changes or mistakes. |
 | **Coreference Resolution**            | Low (0.3 - 0.4)             | Coreference resolution needs to maintain **consistent references** between words (e.g., "he" vs. "John"). A low temperature ensures clear and accurate linking of pronouns to entities. |
-Certainly! Here are examples of **NLP tasks** where a **high temperature** setting would be more appropriate. High temperatures allow the model to generate more diverse, creative, and exploratory outputs, making it suitable for tasks where **variability, creativity, or open-endedness** is desired.
 
 ### High Temperature Tasks: Examples & Explanations
 
@@ -71,8 +70,6 @@ Certainly! Here are examples of **NLP tasks** where a **high temperature** setti
 
 The **high temperature** setting encourages the model to explore a **wide range of possibilities** and generate more **unpredictable, creative** outputs. This is perfect for tasks where the goal is to **stimulate imagination** or produce **varied responses**, but less suitable for tasks requiring strict accuracy or consistency.
 
-This table should help your students understand when to use low temperature settings to optimize performance in different NLP tasks!
-#####################################
 ## 2.Top P
 A sampling technique with temperature, called nucleus sampling, where you can control how deterministic the model is. If you are looking for exact and factual answers keep this low. If you are looking for more diverse responses, increase to a higher value. If you use Top P it means that only the tokens comprising the top_p probability mass are considered for responses, so a low top_p value selects the most confident responses. This means that a high top_p value will enable the model to look at more possible words, including less likely ones, leading to more diverse outputs.
 
