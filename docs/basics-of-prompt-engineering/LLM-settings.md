@@ -75,6 +75,9 @@ The **high temperature** setting encourages the model to explore a **wide range 
 ## 2.Top P
 A sampling technique with temperature, called nucleus sampling, where you can control how deterministic the model is. If you are looking for exact and factual answers keep this low. If you are looking for more diverse responses, increase to a higher value. If you use Top P it means that only the tokens comprising the top_p probability mass are considered for responses, so a low top_p value selects the most confident responses. This means that a high top_p value will enable the model to look at more possible words, including less likely ones, leading to more diverse outputs.
 
+<img width="999" alt="image" src="https://github.com/user-attachments/assets/996e441b-72a5-49f6-a84b-d7c4de95a8cf">
+
+
 **The general recommendation is to alter temperature or Top P but not both.**
 
 ## 3.Max Length
